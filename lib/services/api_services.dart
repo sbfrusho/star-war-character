@@ -5,10 +5,16 @@ import '../models/character_model.dart';
 class ApiService {
   static const String baseUrl = "https://swapi.dev/api/people";
 
-  Future<List<Character>> fetchCharacters() async {
+  Future<List<Character>> fetchCharacters({String? searchQuery}) async {
     try {
       print("Fetching characters from API...");
-      final response = await http.get(Uri.parse(baseUrl));
+      
+      // Add search query to API request if provided
+      final url = searchQuery != null && searchQuery.isNotEmpty
+          ? "$baseUrl/?search=$searchQuery"
+          : baseUrl;
+
+      final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);

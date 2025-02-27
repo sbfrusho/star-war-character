@@ -8,20 +8,33 @@ class CharacterListViewModel extends ChangeNotifier {
   final List<Character> _characters = [];
   bool _isLoading = false;
   int _currentPage = 1;
-  bool _hasMore = true; // To check if more data is available
+  bool _hasMore = true;
+  String _searchQuery = "";
 
   List<Character> get characters => _characters;
   bool get isLoading => _isLoading;
   bool get hasMore => _hasMore;
 
-  Future<void> fetchCharacters() async {
-    if (_isLoading || !_hasMore) return; // Stop fetching if already loading or no more data
+  Future<void> fetchCharacters({String searchQuery = ""}) async {
+    if (_isLoading) return;
 
+    // Reset pagination if it's a search query
+    if (searchQuery.isNotEmpty && searchQuery != _searchQuery) {
+      _characters.clear();
+      _currentPage = 1;
+      _hasMore = true;
+    }
+
+    _searchQuery = searchQuery;
     _isLoading = true;
     notifyListeners();
 
     try {
-      final response = await _dio.get("https://swapi.dev/api/people/?page=$_currentPage");
+      String url = searchQuery.isNotEmpty
+          ? "https://swapi.dev/api/people/?search=$searchQuery"
+          : "https://swapi.dev/api/people/?page=$_currentPage";
+
+      final response = await _dio.get(url);
       if (response.statusCode == 200) {
         final data = json.decode(response.toString());
 
@@ -29,10 +42,13 @@ class CharacterListViewModel extends ChangeNotifier {
             .map((json) => Character.fromJson(json))
             .toList();
 
+        if (_currentPage == 1) {
+          _characters.clear(); // Clear list if it's a new search
+        }
+
         _characters.addAll(newCharacters);
         _currentPage++;
 
-        // Check if more pages are available
         _hasMore = data['next'] != null;
       }
     } catch (e) {

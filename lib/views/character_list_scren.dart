@@ -11,6 +11,7 @@ class CharacterListScreen extends StatefulWidget {
 
 class _CharacterListScreenState extends State<CharacterListScreen> {
   late ScrollController _scrollController;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -30,27 +31,62 @@ class _CharacterListScreenState extends State<CharacterListScreen> {
     }
   }
 
+  void _searchCharacters() {
+    String query = _searchController.text.trim();
+    Provider.of<CharacterListViewModel>(context, listen: false).fetchCharacters(searchQuery: query);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Star Wars Characters")),
-      drawer: DrawerMenu(), // Use the extracted DrawerMenu
-      body: Consumer<CharacterListViewModel>(
-        builder: (context, viewModel, child) {
-          return ListView.builder(
-            controller: _scrollController,
-            itemCount: viewModel.characters.length + 1,
-            itemBuilder: (context, index) {
-              if (index < viewModel.characters.length) {
-                return CharacterCard(character: viewModel.characters[index]);
-              } else if (viewModel.hasMore) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                return SizedBox.shrink();
-              }
-            },
-          );
-        },
+      drawer: DrawerMenu(),
+      body: Column(
+        children: [
+          // 🔍 Search Bar
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: "Search characters...",
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.search),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: _searchCharacters,
+                  child: Text("Search"),
+                ),
+              ],
+            ),
+          ),
+          // Character List
+          Expanded(
+            child: Consumer<CharacterListViewModel>(
+              builder: (context, viewModel, child) {
+                return ListView.builder(
+                  controller: _scrollController,
+                  itemCount: viewModel.characters.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index < viewModel.characters.length) {
+                      return CharacterCard(character: viewModel.characters[index]);
+                    } else if (viewModel.hasMore) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -58,6 +94,7 @@ class _CharacterListScreenState extends State<CharacterListScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 }
