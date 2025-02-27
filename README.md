@@ -54,18 +54,19 @@ sh
 Copy
 Edit
 flutter run
+
 💡 Challenges & Solutions
 🌀 Implementing Pagination
 Issue: Fetching and displaying all characters dynamically.
 Solution: Used infinite scroll with API pagination (?page=1, ?page=2, etc.).
+
 🌗 Persisting Theme Preferences
 Issue: Theme resets after app restart.
 Solution: Implemented SharedPreferences to save user preferences.
+
 🔄 Navigation Issues
 Issue: "Back" button caused black screen due to incorrect navigation stack handling.
 Solution: Fixed navigation using GoRouter with safe pop handling.
-📄 License
-This project is open-source under the MIT License.
 
 👨‍💻 Author
 Developed by Sakib Bin Faruque Rusho
