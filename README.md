@@ -12,8 +12,7 @@ The **Star Wars Character Explorer** is a Flutter-based mobile application that 
 - 🏠 **Side Navigation Drawer** – Includes sections like Home and About.  
 - 🔎 **Search Bar** – Users can search for Star Wars characters by name.  
 - 📜 **Character List with Pagination** – Displays characters with infinite scrolling.  
-- 🎭 **Character Details Page** – Shows detailed character information.  
-- 🌗 **Dark Mode & Light Mode** – Users can switch themes.  
+- 🎭 **Character Details Page** – Shows detailed character information.
 - ⚙️ **State Management** – Uses `Provider` for efficient state handling.  
 
 ## 🖥 Tech Stack
