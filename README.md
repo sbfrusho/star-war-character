@@ -19,7 +19,7 @@ The **Star Wars Character Explorer** is a Flutter-based mobile application that 
 - **Frontend:** Flutter, Dart  
 - **Backend:** SWAPI (Star Wars API)  
 - **State Management:** Provider  
-- **Networking:** Dio (for API requests)  
+- **Networking:** Dio,https (for API requests)  
 - **Storage:** Shared Preferences (for saving theme preferences)  
 
 ## 📸 Screenshots
