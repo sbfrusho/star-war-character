@@ -42,8 +42,8 @@ The **Star Wars Character Explorer** is a Flutter-based mobile application that 
 ## 🛠 Setup & Installation
 1. Clone the repository:  
    ```sh
-   git clone https://github.com/sbfrusho/Star-wars-.git
-   cd Star-wars-
+   git clone https://github.com/sbfrusho/star-war-character.git
+   cd star-war-character
 Install dependencies:
 sh
 Copy
